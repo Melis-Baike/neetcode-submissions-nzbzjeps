@@ -11,32 +11,31 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
 
+        // BFS Multi-Source
         Queue<int[]> queue = new LinkedList<>();
-        
+
         for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                // Multi-Source
+            for (int j = 0; j < n; j++) {
                 if(grid[i][j] == 0) {
-                    queue.add(new int[]{i, j});
+                    queue.offer(new int[]{i, j});
                 }
             }
         }
 
         while(!queue.isEmpty()) {
-            int[] source = queue.poll();
-            int r = source[0];
-            int c = source[1];
+            int[] curr = queue.poll();
+            int x = curr[0];
+            int y = curr[1];
 
             for(int[] dir : directions) {
-                int nr = r + dir[0];
-                int nc = c + dir[1];
+                int dx = x + dir[0];
+                int dy = y + dir[1];
 
-                if(nr < 0 || nr >= m || nc < 0 || nc >= n) continue;
+                if(dx < 0 || dy < 0 || dx >= m || dy >= n) continue;
+                if(grid[dx][dy] != Integer.MAX_VALUE) continue;
 
-                if(grid[nr][nc] != Integer.MAX_VALUE) continue;
-
-                grid[nr][nc] = grid[r][c] + 1;
-                queue.add(new int[]{nr, nc});
+                grid[dx][dy] = grid[x][y] + 1;
+                queue.offer(new int[]{dx, dy});
             }
         }
     }
